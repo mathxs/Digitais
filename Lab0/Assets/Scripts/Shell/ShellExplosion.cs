@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+//Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
+//Controla o efeito da explosao, tanto o visual quanto o audio
+
 public class ShellExplosion : MonoBehaviour
 {
     public LayerMask m_TankMask;

@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
+//Tive bastante dificuldade nesta parte, pois quando fiz o parte da saude o jogo estava funcionando, quando fui aplicar a seta para atirar, acabei desativando a saude.
+// demorei bastante tempo para descobrir porem consegui arrumar.
+//tinha cometido dois erros:
+//1- nao tinha alterado para player o tiro, e por conta disso ele nao estava sendo reconhecido
+//2- tinha alterado sem querer a hierarquia dos objetos e por conta disso eles tinham parado de funcionar.
+
 public class TankHealth : MonoBehaviour
 {
     public float m_StartingHealth = 100f;          
@@ -9,7 +16,6 @@ public class TankHealth : MonoBehaviour
     public Color m_FullHealthColor = Color.green;  
     public Color m_ZeroHealthColor = Color.red;    
     public GameObject m_ExplosionPrefab;
-    
     
     private AudioSource m_ExplosionAudio;          
     private ParticleSystem m_ExplosionParticles;   
@@ -21,7 +27,6 @@ public class TankHealth : MonoBehaviour
     {
         m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
         m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
-
         m_ExplosionParticles.gameObject.SetActive(false);
     }
 
@@ -30,7 +35,6 @@ public class TankHealth : MonoBehaviour
     {
         m_CurrentHealth = m_StartingHealth;
         m_Dead = false;
-
         SetHealthUI();
     }
 
@@ -38,9 +42,7 @@ public class TankHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         m_CurrentHealth -= amount;
-
         SetHealthUI();
-
         if (m_CurrentHealth <= 0f && !m_Dead)
         {
             OnDeath();
@@ -58,14 +60,10 @@ public class TankHealth : MonoBehaviour
     private void OnDeath()
     {
         m_Dead = true;
-
         m_ExplosionParticles.transform.position = transform.position;
         m_ExplosionParticles.gameObject.SetActive(true);
-
         m_ExplosionParticles.Play();
-
         m_ExplosionAudio.Play();
-
         gameObject.SetActive(false);
     }
 }

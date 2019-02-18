@@ -3,6 +3,11 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
+
+//Controla a jogabilidade, iniciando e finalizado os rounds e controlando o jogo
+//Fazendo inicio e fim do jogo assim como controlando os textos
+
 public class GameManager : MonoBehaviour
 {
     public int m_NumRoundsToWin = 5;        
@@ -48,12 +53,10 @@ public class GameManager : MonoBehaviour
     private void SetCameraTargets()
     {
         Transform[] targets = new Transform[m_Tanks.Length];
-
         for (int i = 0; i < targets.Length; i++)
         {
             targets[i] = m_Tanks[i].m_Instance.transform;
         }
-
         m_CameraControl.m_Targets = targets;
     }
 
@@ -77,18 +80,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RoundStarting()
     {
-        // As soon as the round starts reset the tanks and make sure they can't move.
         ResetAllTanks();
         DisableTankControl();
-
-        // Snap the camera's zoom and position to something appropriate for the reset tanks.
         m_CameraControl.SetStartPositionAndSize();
-
-        // Increment the round number and display text showing the players what round it is.
         m_RoundNumber++;
-        m_MessageText.text = "ROUND " + m_RoundNumber;
-
-        // Wait for the specified length of time until yielding control back to the game loop.
+        m_MessageText.text = "Partida " + m_RoundNumber;
         yield return m_StartWait;
     }
 
@@ -96,9 +92,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundPlaying()
     {
         EnableTankControl();
-
         m_MessageText.text = string.Empty;
-
         while (!OneTankLeft())
         {
             yield return null;
@@ -109,32 +103,25 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundEnding()
     {
         DisableTankControl();
-
         m_RoundWinner = null;
-
         m_RoundWinner = GetRoundWinner();
-
         if (m_RoundWinner != null)
             m_RoundWinner.m_Wins++;
 
         m_GameWinner = GetGameWinner();
-
         string message = EndMessage();
         m_MessageText.text = message;
-
         yield return m_EndWait;
     }
 
     private bool OneTankLeft()
     {
         int numTanksLeft = 0;
-
         for (int i = 0; i < m_Tanks.Length; i++)
         {
             if (m_Tanks[i].m_Instance.activeSelf)
                 numTanksLeft++;
         }
-
         return numTanksLeft <= 1;
     }
 
@@ -146,7 +133,6 @@ public class GameManager : MonoBehaviour
             if (m_Tanks[i].m_Instance.activeSelf)
                 return m_Tanks[i];
         }
-
         return null;
     }
 
@@ -158,27 +144,25 @@ public class GameManager : MonoBehaviour
             if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
                 return m_Tanks[i];
         }
-
         return null;
     }
 
-
+    //Editar as mensagems
     private string EndMessage()
     {
         string message = "DRAW!";
 
         if (m_RoundWinner != null)
-            message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
+            message = m_RoundWinner.m_ColoredPlayerText + " venceu a partida!";
 
         message += "\n\n\n\n";
-
         for (int i = 0; i < m_Tanks.Length; i++)
         {
-            message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
+            message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " venceu\n";
         }
 
         if (m_GameWinner != null)
-            message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
+            message = m_GameWinner.m_ColoredPlayerText + " é o maioral!";
 
         return message;
     }
