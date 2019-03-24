@@ -18,7 +18,7 @@ public class TankHealth : MonoBehaviour
     public GameObject m_ExplosionPrefab;
     
     private AudioSource m_ExplosionAudio;          
-    private ParticleSystem m_ExplosionParticles;   
+    private ParticleSystem m_ExplosionParticles;
     private float m_CurrentHealth;  
     private bool m_Dead;            
 

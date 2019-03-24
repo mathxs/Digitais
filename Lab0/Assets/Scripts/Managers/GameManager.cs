@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour
     public float m_EndDelay = 3f;           
     public CameraControl m_CameraControl;   
     public Text m_MessageText;              
-    public GameObject m_TankPrefab;         
+    public GameObject m_TankPrefab;
+    //de uso pela IA
+    public GameObject m_TankAIPrefab;
     public TankManager[] m_Tanks;           
 
 
@@ -25,8 +27,7 @@ public class GameManager : MonoBehaviour
     private TankManager m_RoundWinner;
     private TankManager m_GameWinner;
 
-    //de uso pela IA
-    public GameObject m_TankAIPrefab;
+    
 
 
     private void Start()
