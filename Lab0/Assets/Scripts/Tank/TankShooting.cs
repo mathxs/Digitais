@@ -88,7 +88,7 @@ public class TankShooting : MonoBehaviour
         //disparando sempre com forca media
         if (m_IsAI)
         {
-            m_MinLaunchForce = m_MinLaunchForce / 2.0f;
+            m_CurrentLaunchForce = m_MaxLaunchForce / 2.0f;
         }
 
         m_Fired = true;

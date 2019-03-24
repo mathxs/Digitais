@@ -26,11 +26,12 @@ public class AITankController : FSM
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         pointList = GameObject.FindGameObjectsWithTag("PatrolPoint");
+        Debug.Log(pointList.Length);
         //base.Initialize();
 
         //A posicao de destino é randomica no inicio ? Pq ?
         int rndIndex = UnityEngine.Random.Range(0, pointList.Length);
-        Debug.Log(pointList.Length);
+        
         destPos = pointList[rndIndex].transform.position;
     }
 
@@ -69,8 +70,9 @@ public class AITankController : FSM
 
     private void UpdateAttackState()
     {
-        Collider[] players = Physics.OverlapSphere(transform.position, 15.0f, LayerMask.GetMask(" Players"));
-        if(players.Length == 0)
+        Collider[] players = Physics.OverlapSphere(transform.position, 15.0f, LayerMask.GetMask("Players"));
+        Debug.Log(players.Length);
+        if (players.Length == 1)
         {
             curState = FSMState.Patrol;
             player = null;
@@ -91,8 +93,8 @@ public class AITankController : FSM
 
     private void UpdatePatrolState()
     {
-        Collider[] players = Physics.OverlapSphere(transform.position, 10.0f, LayerMask.GetMask(" Players"));
-        if (players.Length > 0)
+        Collider[] players = Physics.OverlapSphere(transform.position, 10.0f, LayerMask.GetMask("Players"));
+        if (players.Length > 1)
         {
             curState = FSMState.Attack;
             player = players[0].gameObject;
@@ -101,6 +103,7 @@ public class AITankController : FSM
         }
         if (IsInCurrentRange(destPos))
         {
+            //curState = FSMState.Patrol;
             int rndIndex = UnityEngine.Random.Range(0, pointList.Length);
             destPos = pointList[rndIndex].transform.position;
         }
@@ -125,12 +128,13 @@ public class AITankController : FSM
     // Start is called before the first frame update
     void Start()
     {
-        
+        Initialize();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        FSMUpdate();
     }
 }
