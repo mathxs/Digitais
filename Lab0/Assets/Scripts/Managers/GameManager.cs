@@ -19,16 +19,17 @@ public class GameManager : MonoBehaviour
     
     //de uso pela IA
     public GameObject m_TankAIPrefab;
-    public TankManager[] m_Tanks;           
-
+    public TankManager[] m_Tanks;
+    private int controle;
 
     private int m_RoundNumber;              
     private WaitForSeconds m_StartWait;     
     private WaitForSeconds m_EndWait;       
     private TankManager m_RoundWinner;
     private TankManager m_GameWinner;
+    public AITankController passandoMetodo;
 
-    
+
 
 
     private void Start()
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
         SetCameraTargets();
 
         StartCoroutine(GameLoop());
+        controle = m_Tanks.Length;
     }
 
 
@@ -48,7 +50,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Tanks.Length; i++)
         {
             //Este é o caso da IA
-            if (i == m_Tanks.Length - 1)
+            //inclui o codigo depois o || para poder iniciar dois IA e dois Jogadores, caso seja maior que 3 a quantidade de jogador
+            if ((i == m_Tanks.Length - 1) || (i == m_Tanks.Length - 2 ) && (m_Tanks.Length>2))
             {
                 m_Tanks[i].m_Instance =
                 Instantiate(m_TankAIPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
@@ -91,6 +94,13 @@ public class GameManager : MonoBehaviour
         else
         {
             StartCoroutine(GameLoop());
+        }
+
+        //tentando controlar rotacao
+        if(controle != m_Tanks.Length)
+        {
+            passandoMetodo.Morreu(controle - m_Tanks.Length);
+            controle = m_Tanks.Length;
         }
     }
 

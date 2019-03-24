@@ -6,6 +6,10 @@ using UnityEngine.AI;
 public class AITankController : FSM
 {
 
+    //tive que tirar os complete, pois nao estou usando aquelas class, deu um confusao entender isso, pois nao tinha visto que tinha outras copias complete.
+    //tem um bug da detecção, o tank do ia etava se detectando como alvo por isso nao estava andando, por conta disso tive que modificar alguns contadores, para ele sóperceber o 2 tank dentro do alvo
+    //comentei em cima dos lugares em que eu modifiquei
+
     public TankShooting tankShooter;
     public TankHealth tankHealth;
     private bool isDead = false;
@@ -13,6 +17,7 @@ public class AITankController : FSM
     private float shootRate = 3.0f;
     private GameObject player = null;
     private NavMeshAgent navMeshAgent;
+    private int controle;
 
     public enum FSMState
     {
@@ -29,10 +34,11 @@ public class AITankController : FSM
         Debug.Log(pointList.Length);
         //base.Initialize();
 
-        //A posicao de destino é randomica no inicio ? Pq ?
+        //A posicao de destino é randomica no inicio.
         int rndIndex = UnityEngine.Random.Range(0, pointList.Length);
         
         destPos = pointList[rndIndex].transform.position;
+        controle = 0;
     }
 
     protected override void FSMUpdate()
@@ -72,6 +78,7 @@ public class AITankController : FSM
     {
         Collider[] players = Physics.OverlapSphere(transform.position, 15.0f, LayerMask.GetMask("Players"));
         Debug.Log(players.Length);
+        //aumentei de 0 para 1, pois a ia estava se enxergando como alvo e nao parava de atirar
         if (players.Length == 1)
         {
             curState = FSMState.Patrol;
@@ -79,7 +86,8 @@ public class AITankController : FSM
             navMeshAgent.enabled = true;
             return;
         }
-        player = players[0].gameObject;
+        //com mais de um jogador a rotacao do tank buga, ele se perde, estou tentando consertar
+        player = players[controle].gameObject;
         Vector3 _direction = (player.transform.position - transform.position).normalized;
         Quaternion _lookRotation = Quaternion.LookRotation(_direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 3);
@@ -94,6 +102,7 @@ public class AITankController : FSM
     private void UpdatePatrolState()
     {
         Collider[] players = Physics.OverlapSphere(transform.position, 10.0f, LayerMask.GetMask("Players"));
+        //aumentei de 0 para 1, pois a ia estava se enxergando como alvo e nao parava de atirar
         if (players.Length > 1)
         {
             curState = FSMState.Attack;
@@ -104,6 +113,7 @@ public class AITankController : FSM
         if (IsInCurrentRange(destPos))
         {
             //curState = FSMState.Patrol;
+            //é uma ia burra por conta dos random
             int rndIndex = UnityEngine.Random.Range(0, pointList.Length);
             destPos = pointList[rndIndex].transform.position;
         }
@@ -136,5 +146,11 @@ public class AITankController : FSM
     void Update()
     {
         FSMUpdate();
+    }
+    public void Morreu(int i)
+    {
+        controle = i;
+        Debug.Log(controle);
+
     }
 }

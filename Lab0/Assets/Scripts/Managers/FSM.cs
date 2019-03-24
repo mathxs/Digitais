@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Classe criada para uso do IA Controle de Movimento
+//tive que tirar os complete, pois nao estou usando aquelas class, deu um confusao entender isso, pois nao tinha visto que tinha outras copias complete.
+
 public class FSM : TankMovement
 {
     protected Vector3 destPos;
