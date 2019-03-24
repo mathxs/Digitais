@@ -4,10 +4,6 @@ using UnityEngine;
 //Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
 //Coloca os tank junto com os empty criado no unit na hierarquia
 
-//Professor nao consegui fazer com que o nome do spaw seguisse o tank, tentei varias coisa, e mesmo senguindo o tutorial o spaw nao segue o tank.
-//Este codigo deveria fazer isso, juntamente com as entradas no public,
-//As entradas estao certas como pode ver na cena, porem nao estao sendo efetivadas corretamente
-
 [Serializable]
 public class TankManager
 {
@@ -22,6 +18,9 @@ public class TankManager
     private TankMovement m_Movement;       
     private TankShooting m_Shooting;
     private GameObject m_CanvasGameObject;
+
+    //inciando variaveis
+
 
 
     public void Setup()

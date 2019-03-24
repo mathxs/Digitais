@@ -83,7 +83,7 @@ public class TankShooting : MonoBehaviour
     }
 
     //Atirando
-    private void Fire()
+    public void Fire()
     {
         //disparando sempre com forca media
         if (m_IsAI)
