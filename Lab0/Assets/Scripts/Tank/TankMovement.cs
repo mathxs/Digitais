@@ -21,8 +21,9 @@ public class TankMovement : MonoBehaviour
     private Rigidbody m_Rigidbody;         
     private float m_MovementInputValue;    
     private float m_TurnInputValue;        
-    private float m_OriginalPitch;         
-
+    private float m_OriginalPitch;
+    //Criada para uso do Nav Mesh
+    public bool m_IsAI;
 
     private void Awake()
     {
@@ -54,9 +55,13 @@ public class TankMovement : MonoBehaviour
 
     private void Update()
     {
-        m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
-        m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-
+        //desativa quando a ia nao estiver rodando
+        //porem continua com os sons
+        if (!m_IsAI)
+        {
+            m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
+            m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
+        }
         EngineAudio();
     }
 

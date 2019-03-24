@@ -19,8 +19,10 @@ public class TankShooting : MonoBehaviour
     public float m_MinLaunchForce = 15f; 
     public float m_MaxLaunchForce = 30f; 
     public float m_MaxChargeTime = 0.75f;
+    //Criada para uso do Nav Mesh
+    public bool m_IsAI;
 
-    
+
     private string m_FireButton;         
     private float m_CurrentLaunchForce;  
     private float m_ChargeSpeed;         
@@ -45,7 +47,13 @@ public class TankShooting : MonoBehaviour
     //chama tanto o Fire para iniciar o tiro como mantem a logica dele até ele morrer.
     //Chama os sons conforme impacto, ou lancamento.
     private void Update()
-    {
+    {   
+
+        //Usado para retornar caso o IA esteja funcionando sem executar o update
+        if (m_IsAI)
+        {
+            return; 
+        }
         m_AimSlider.value = m_MinLaunchForce;
 
         if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
@@ -77,6 +85,12 @@ public class TankShooting : MonoBehaviour
     //Atirando
     private void Fire()
     {
+        //disparando sempre com forca media
+        if (m_IsAI)
+        {
+            m_MinLaunchForce = m_MinLaunchForce / 2.0f;
+        }
+
         m_Fired = true;
         Rigidbody shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
         shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; ;
