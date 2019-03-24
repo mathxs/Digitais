@@ -19,8 +19,7 @@ public class TankManager
     private TankShooting m_Shooting;
     private GameObject m_CanvasGameObject;
 
-    //inciando variaveis
-
+    //iniciando as variaveis da personalizacao do tanks
 
 
     public void Setup()

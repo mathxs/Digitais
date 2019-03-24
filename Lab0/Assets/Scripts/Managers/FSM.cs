@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Classe criada para uso do IA Controle de Movimento
-public class FSM : Complete.TankMovement
+public class FSM : TankMovement
 {
     protected Vector3 destPos;
     protected GameObject[] pointList;
+
     protected virtual void Initialize() { }
     protected virtual void FSMUpdate() { }
     protected virtual void FSMFixedUpdate() { }

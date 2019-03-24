@@ -25,11 +25,12 @@ public class AITankController : FSM
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-        pointList = GameObject.FindGameObjectsWithTag(" PatrolPoint");
+        pointList = GameObject.FindGameObjectsWithTag("PatrolPoint");
         //base.Initialize();
 
         //A posicao de destino é randomica no inicio ? Pq ?
         int rndIndex = UnityEngine.Random.Range(0, pointList.Length);
+        Debug.Log(pointList.Length);
         destPos = pointList[rndIndex].transform.position;
     }
 

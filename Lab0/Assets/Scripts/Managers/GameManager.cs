@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public CameraControl m_CameraControl;   
     public Text m_MessageText;              
     public GameObject m_TankPrefab;
+    
     //de uso pela IA
     public GameObject m_TankAIPrefab;
     public TankManager[] m_Tanks;           
