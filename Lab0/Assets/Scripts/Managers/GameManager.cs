@@ -57,21 +57,24 @@ public class GameManager : MonoBehaviour
         {
             //Este é o caso da IA
             //inclui o codigo depois o || para poder iniciar dois IA e dois Jogadores, caso seja maior que 3 a quantidade de jogador
-            if ((i == m_Tanks.Length - 1) || (i == m_Tanks.Length - 2 ) && (m_Tanks.Length>2))
+            if ((i == 0) || (i == 1) && (m_Tanks.Length>2))
             {
-                m_Tanks[i].m_Instance =
-                Instantiate(m_TankAIPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-                m_Tanks[i].m_PlayerNumber = i + 1;              
-                m_Tanks[i].Setup();
-                m_Tanks[i].texto("P" + (i + 1) + "Win" + m_Tanks[i].m_Wins);
-            }
-            else
-            {
+
                 m_Tanks[i].m_Instance =
                 Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
                 m_Tanks[i].m_PlayerNumber = i + 1;
                 m_Tanks[i].Setup();
                 m_Tanks[i].texto("P" + (i + 1) + "Win" + m_Tanks[i].m_Wins);
+
+            }
+            else
+            {
+                m_Tanks[i].m_Instance =
+                Instantiate(m_TankAIPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
+                m_Tanks[i].m_PlayerNumber = i + 1;
+                m_Tanks[i].Setup();
+                m_Tanks[i].texto("P" + (i + 1) + "Win" + m_Tanks[i].m_Wins);
+
             }
         }
     }
