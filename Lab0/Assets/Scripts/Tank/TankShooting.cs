@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
+using TMPro;
 
 
 //Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
@@ -22,6 +26,8 @@ public class TankShooting : MonoBehaviour
     //Criada para uso do Nav Mesh
     public bool m_IsAI;
 
+    //Estou usando para escrever, pois achei mais facil do que criar uma script novo
+    public TextMeshProUGUI m_MessageTank;
 
     private string m_FireButton;         
     private float m_CurrentLaunchForce;  

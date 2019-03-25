@@ -16,7 +16,7 @@ public class TankHealth : MonoBehaviour
     public Color m_FullHealthColor = Color.green;  
     public Color m_ZeroHealthColor = Color.red;    
     public GameObject m_ExplosionPrefab;
-    
+
     private AudioSource m_ExplosionAudio;          
     private ParticleSystem m_ExplosionParticles;
     public float m_CurrentHealth;  
@@ -28,6 +28,7 @@ public class TankHealth : MonoBehaviour
         m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
         m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
         m_ExplosionParticles.gameObject.SetActive(false);
+        
     }
 
 

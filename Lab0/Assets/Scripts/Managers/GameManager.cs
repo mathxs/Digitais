@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 //Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
 
@@ -27,10 +28,13 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds m_EndWait;       
     private TankManager m_RoundWinner;
     private TankManager m_GameWinner;
+    //controlando rotacao do IA (nao consegui fazer funcionar direito)
     public AITankController passandoMetodo;
 
-
-
+    //materiais do tank e seu controne
+    public Material[] m_Materials = new Material[9];
+    private int gameState;
+    private Boolean teste;
 
     private void Start()
     {
@@ -40,6 +44,8 @@ public class GameManager : MonoBehaviour
         SpawnAllTanks();
         SetCameraTargets();
 
+        gameState = 0;
+        teste = true;
         StartCoroutine(GameLoop());
         controle = m_Tanks.Length;
     }
@@ -55,8 +61,9 @@ public class GameManager : MonoBehaviour
             {
                 m_Tanks[i].m_Instance =
                 Instantiate(m_TankAIPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-                m_Tanks[i].m_PlayerNumber = i + 1;
+                m_Tanks[i].m_PlayerNumber = i + 1;              
                 m_Tanks[i].Setup();
+                m_Tanks[i].texto("P" + (i + 1) + "Win" + m_Tanks[i].m_Wins);
             }
             else
             {
@@ -64,7 +71,7 @@ public class GameManager : MonoBehaviour
                 Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
                 m_Tanks[i].m_PlayerNumber = i + 1;
                 m_Tanks[i].Setup();
-
+                m_Tanks[i].texto("P" + (i + 1) + "Win" + m_Tanks[i].m_Wins);
             }
         }
     }
@@ -83,6 +90,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameLoop()
     {
+        //chamar material
+        if (teste)
+        {
+            yield return StartCoroutine(Textura());
+        }
+        teste = false;
+
         yield return StartCoroutine(RoundStarting());
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
@@ -97,7 +111,7 @@ public class GameManager : MonoBehaviour
         }
 
         //tentando controlar rotacao
-        if(controle != m_Tanks.Length)
+        if (controle != m_Tanks.Length)
         {
             passandoMetodo.Morreu(controle - m_Tanks.Length);
             controle = m_Tanks.Length;
@@ -169,8 +183,12 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Tanks.Length; i++)
         {
             if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
+            {
                 return m_Tanks[i];
+            }
+            m_Tanks[i].texto("P" + (i + 1) + "Win" + m_Tanks[i].m_Wins);
         }
+
         return null;
     }
 
@@ -218,5 +236,67 @@ public class GameManager : MonoBehaviour
         {
             m_Tanks[i].DisableControl();
         }
+    }
+
+    //Escolhendo a textura
+    private IEnumerator Textura()
+    {
+        //mantem o jogo parado para as escolhas
+        ResetAllTanks();
+        DisableTankControl();
+        m_CameraControl.SetStartPositionAndSize();
+
+        m_MessageText.text = "Escolha a textura com os botoes de 1 - 9, e aperte 0 para continuar para o proximo tank: ";
+
+        //passo as 9 texturas e deixo escolhar para cada tank uma vez
+        while ((gameState < m_Tanks.Length))
+        {
+            if (Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                m_Tanks[gameState].Material(m_Materials[0]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                m_Tanks[gameState].Material(m_Materials[1]);
+            }
+            else if(Input.GetKeyDown(KeyCode.Keypad3))
+            {
+                m_Tanks[gameState].Material(m_Materials[2]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad4))
+            {
+                m_Tanks[gameState].Material(m_Materials[3]);
+            }
+            else if(Input.GetKeyDown(KeyCode.Keypad5))
+            {
+                m_Tanks[gameState].Material(m_Materials[4]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad6))
+            {
+                m_Tanks[gameState].Material(m_Materials[5]);
+            }
+            else if(Input.GetKeyDown(KeyCode.Keypad7))
+            {
+                m_Tanks[gameState].Material(m_Materials[6]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                m_Tanks[gameState].Material(m_Materials[7]);
+            }
+            else if(Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                m_Tanks[gameState].Material(m_Materials[8]);
+            }
+            //permite sair para todos os tanks depois que escolhe todas as texturas
+            if (Input.GetKeyDown(KeyCode.Keypad0)) 
+            {
+                //vida e jogador
+
+                m_Tanks[gameState].texto("P" + (gameState+1) + "Win" + m_Tanks[gameState].m_Wins);
+                gameState++;
+            }
+            yield return null;
+        }
+        //yield return null;
     }
 }

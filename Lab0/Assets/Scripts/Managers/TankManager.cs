@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
+
+
 //Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
 //Coloca os tank junto com os empty criado no unit na hierarquia
 
@@ -12,8 +14,8 @@ public class TankManager
     [HideInInspector] public int m_PlayerNumber;             
     [HideInInspector] public string m_ColoredPlayerText;
     [HideInInspector] public GameObject m_Instance;          
-    [HideInInspector] public int m_Wins;                     
-
+    [HideInInspector] public int m_Wins;
+    public Material m_material;
 
     private TankMovement m_Movement;       
     private TankShooting m_Shooting;
@@ -65,5 +67,22 @@ public class TankManager
 
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);
+    }
+
+    public void Material(Material material)
+    {
+        MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = material;
+        }
+        m_material = material;
+    }
+
+    //vida e jogador
+    public void texto(String textoGame)
+    {
+        m_Shooting.m_MessageTank.text = textoGame;
     }
 }

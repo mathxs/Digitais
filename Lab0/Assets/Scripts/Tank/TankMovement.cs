@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
+
 //Neste primeiro progeto não escrevi nenhum pedaço de codigo, apenas acompanhei a explicação do uso no tutorial unity
 
-    //Sobre os metodos public, já expliquei em outro script. Assim como o Rigibody e o AudioClip
-    //Este codigo cuida da movimentacao conforme os input e controla os sons de acordo com os movimentos
+//Sobre os metodos public, já expliquei em outro script. Assim como o Rigibody e o AudioClip
+//Este codigo cuida da movimentacao conforme os input e controla os sons de acordo com os movimentos
 
 public class TankMovement : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class TankMovement : MonoBehaviour
     public AudioClip m_EngineDriving;      
     public float m_PitchRange = 0.2f;
 
-    
+
+
     private string m_MovementAxisName;     
     private string m_TurnAxisName;         
     private Rigidbody m_Rigidbody;         
