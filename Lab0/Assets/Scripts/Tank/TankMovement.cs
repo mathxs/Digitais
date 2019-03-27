@@ -26,7 +26,7 @@ public class TankMovement : MonoBehaviour
     private float m_OriginalPitch;
     //Criada para uso do Nav Mesh
     public bool m_IsAI;
-
+    private int controleAudio;
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -53,6 +53,7 @@ public class TankMovement : MonoBehaviour
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
         m_OriginalPitch = m_MovementAudio.pitch;
+        controleAudio = 0;
     }
 
     private void Update()
@@ -68,9 +69,23 @@ public class TankMovement : MonoBehaviour
     }
 
 
+    //O motor desliga apos algum tempo por conta disso modifiquei o codigo para tentar sanar este problema
     private void EngineAudio()
     {
-        if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
+        if (controleAudio > 20)
+        {
+            m_MovementAudio.clip = m_EngineIdling;
+            m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+            m_MovementAudio.Play();
+            controleAudio = 0;
+        }
+        else
+        {
+            controleAudio++;
+        }
+
+        
+        /*if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
         {
             if (m_MovementAudio.clip == m_EngineDriving)
             {
@@ -87,7 +102,7 @@ public class TankMovement : MonoBehaviour
                 m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
                 m_MovementAudio.Play();
             }
-        }
+        }*/
     }
 
 
