@@ -72,6 +72,7 @@ public class TankMovement : MonoBehaviour
     //O motor desliga apos algum tempo por conta disso modifiquei o codigo para tentar sanar este problema
     private void EngineAudio()
     {
+        /*
         if (controleAudio > 20)
         {
             m_MovementAudio.clip = m_EngineIdling;
@@ -83,9 +84,10 @@ public class TankMovement : MonoBehaviour
         {
             controleAudio++;
         }
+        */
 
         
-        /*if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
+        if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
         {
             if (m_MovementAudio.clip == m_EngineDriving)
             {
@@ -102,7 +104,7 @@ public class TankMovement : MonoBehaviour
                 m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
                 m_MovementAudio.Play();
             }
-        }*/
+        }
     }
 
 
